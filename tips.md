@@ -296,7 +296,24 @@ xset r rate 200 30
 ```
 
 ## Crop a 1000x400 pixels area at coordinates 1700,900 (uses imagemagick)
+```
 convert -crop 1000x400+1700+900 src.jpg dest.jpg
+```
 
 ## To locate all files writable by anyone
+```
 sudo find / -perm -o+w
+```
+
+## To rotate or flip a jpeg losslessly
+```
+jpegtran -rotate 90 image.jpg
+jpegtran -flip horizontal image.jpg
+```
+
+# To turn off, suspend or standby the screen
+```
+xset dpms force off
+xset dpms force suspend
+xset dpms force standby
+```
