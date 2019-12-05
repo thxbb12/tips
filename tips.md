@@ -30,11 +30,6 @@ find / -perm -4000 2>/dev/null
 export LESS='iX'
 ```
 
-## Movie player ascii-art rendering
-```
-xterm -fn 5x7 -geometry 400x200 -e "unset DISPLAY;mplayer -quiet -vo aa -monitoraspect 1.3 movie.mp4"
-```
-
 ## To pass multiple arguments to find
 ```
 find . -iname "*.c" -o -iname "*.h"
