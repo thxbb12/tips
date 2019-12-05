@@ -312,3 +312,20 @@ xset dpms force off
 xset dpms force suspend
 xset dpms force standby
 ```
+
+# Check whether a file exists in bash
+The -a argument means "AND"
+```
+if [ -f file1 -a -f file2 ]; then
+  ...
+```
+
+# iptables: to block TCP traffic for user joe
+```
+iptables -A OUTPUT -p tcp -m owner --uid-owner joe -j DROP
+```
+
+# To remove all rules from iptables
+```
+iptables -F
+```
