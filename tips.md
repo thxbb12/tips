@@ -14,6 +14,12 @@ vi !$
 ^ls^tree^
 ```
 
+## To create a tar.gz archive and preserve permissions and symlinks
+sudo tar -p -z -chf archive.tar.gz files
+
+### To restore archive above with original links
+sudo tar -p -xhf archive.tar.gz
+
 ## To change the timezone
 create a symbolic link from desired timezone /usr/share/zoneinfo to /etc/localtime
 ```
@@ -329,3 +335,6 @@ iptables -A OUTPUT -p tcp -m owner --uid-owner joe -j DROP
 ```
 iptables -F
 ```
+
+# Software to freely annotate/draw on PDF files and save them
+xjournal
