@@ -14,6 +14,12 @@ vi !$
 ^ls^tree^
 ```
 
+## To create a tar.gz archive and preserve permissions and symlinks
+sudo tar -p -z -chf archive.tar.gz files
+
+### To restore archive above with original links
+sudo tar -p -xhf archive.tar.gz
+
 ## To change the timezone
 create a symbolic link from desired timezone /usr/share/zoneinfo to /etc/localtime
 ```
@@ -336,3 +342,8 @@ then type:
 ```
 rsync -rav --delete  ~/Videos/Cartoon/ .
 ```
+
+# Software to freely annotate/draw on PDF files and save them
+xournal
+xournalpp
+
