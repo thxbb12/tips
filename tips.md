@@ -329,3 +329,10 @@ iptables -A OUTPUT -p tcp -m owner --uid-owner joe -j DROP
 ```
 iptables -F
 ```
+
+# To rsync movies from PC to tablet
+Mount the tablet and open a terminal in its Cartoon folder (e.g. `/run/user/1000/gvfs/mtp:host=%5Busb%3A003%2C033%5D/Card/Vidéos/Cartoon`),
+then type:
+```
+rsync -rav --delete  ~/Videos/Cartoon/ .
+```
