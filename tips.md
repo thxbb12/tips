@@ -347,3 +347,8 @@ rsync -rav --delete  ~/Videos/Cartoon/ .
 xournal
 xournalpp
 
+# If you get an error authenticating using a ssh keypair
+For instance github would output the following error message: "Permission denied (publickey).".
+This is because the ssh-agent cannot find the right private key on your system.
+Add the private key manually with `ssh-add PATH` where PATH is the path to the private key (e.g. `/home/joe/.ssh/id_rsa_github`)
+
