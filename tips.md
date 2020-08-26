@@ -14,6 +14,12 @@ vi !$
 ^ls^tree^
 ```
 
+## Command to disable/enable the touchpad
+```
+synclient TouchpadOff=1
+synclient TouchpadOff=0
+```
+
 ## To create a tar.gz archive and preserve permissions and symlinks
 sudo tar -p -z -chf archive.tar.gz files
 
