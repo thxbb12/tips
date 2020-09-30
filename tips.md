@@ -362,3 +362,18 @@ Add the private key manually with `ssh-add PATH` where PATH is the path to the p
 ```
 xset b off
 ```
+
+# Commands to control the volume
+Increase volume
+```
+amixer -D pulse set Master 2%+
+```
+Decrease volume
+```
+amixer -D pulse set Master 2%-
+```
+Toggle output 
+```
+amixer -D pulse set Master toggle
+```
+
