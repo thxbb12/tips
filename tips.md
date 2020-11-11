@@ -463,3 +463,7 @@ amixer -D pulse set Master toggle
 sudo apt-get install activity-log-manager
 turn off "Record file and application usage"
 ```
+
+## Debuggers (gdb frontends)
+
+- gdbgui [https://www.gdbgui.com/](https://www.gdbgui.com/)
