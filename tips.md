@@ -52,6 +52,16 @@ export LESS='iX'
 xset b off
 ```
 
+## Display a file hierarchy in a pretty form
+Default character set (non 7-bit ASCII):
+```
+tree
+```
+Since LaTeX/pandoc doesn't like the default charset, here is to specify basic ASCII characters:
+```
+tree --charset ascii
+```
+
 # Networking
 
 ## To scan all open http ports on a given subnetwork
