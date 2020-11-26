@@ -196,6 +196,11 @@ find / -perm -4000 2>/dev/null
 sudo find / -perm -o+w
 ```
 
+## Display files whose' status have changed in the last 10 hours
+```
+find . -type f -cmin -600 
+```
+
 ## To find files in /home within a certain date range (between June 11th 2010 and June 18th 2010)
 ```
 touch --date "2010-06-11" /tmp/start
