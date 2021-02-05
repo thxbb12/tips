@@ -434,6 +434,7 @@ amixer -D pulse set Master toggle
 
 ### Best apps
 - ffmpeg [https://ffmpeg.org/](https://ffmpeg.org/)
+	- 19 FFmpeg Commands For All Needs: https://catswhocode.com/ffmpeg-commands/
 - OpenShot [https://www.openshot.org/](https://www.openshot.org/)
 - Kdenlive [https://kdenlive.org/en/](https://kdenlive.org/en/)
 - Lossless-cut [https://github.com/mifi/lossless-cut](https://github.com/mifi/lossless-cut)
