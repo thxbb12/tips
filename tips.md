@@ -290,6 +290,19 @@ xset dpms force standby
 
 # Programming
 
+## In C, one can pass an array "in place" as an argument:
+
+```
+void printtab(int *tab, int size) {
+    for (int i = 0; i < size; i++)
+        printf("%d\n", tab[i]);
+}
+
+void main() {
+    printtab((int[]){ 13,5,9,-10}, 4);
+}
+```
+
 ## In C, how to get the offset in bytes of a field in a structure
 ```
 offsetof(struct xxx, field)
