@@ -401,10 +401,20 @@ ffmpeg -i input.mp4 -vf 'transpose=1' -c:v libx264 -c:a copy -crf 20 output.mp4
 ```
 
 ## To trim a video file without re-encoding
-
 Trim the video file to keep everything between 1min 17sec to 1h 5min and 33sec:
 ```
 ffmpeg -i input.mp4 -ss 00:01:17 -to 01:05:33 -c:v copy -c:a copy output.mp4
+```
+
+## To concatenate several videos into a single video file (without reencoding)
+```
+ffmpeg -f concat -i files.txt -c copy output.mp4
+```
+Where `files.txt` contains the list of video files to concatenate, in order:
+```
+file 'vid1.mp4'
+file 'vid2.mp4'
+file 'vid3.mp4'
 ```
 
 # Image Manipulation
