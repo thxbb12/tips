@@ -1,11 +1,11 @@
-# Shell
+# bash
 
 ## To repeat the last command
 ```
 !!
 ```
 
-## To recall the argument of the last command (bash)
+## To recall the argument of the last command
 ```
 ls yoyo
 vi !$
@@ -27,14 +27,14 @@ history -c
 history -w
 ```
 
-## Check whether a file exists in bash
+## Check whether a file exists
 The -a argument means "AND"
 ```
 if [ -f file1 -a -f file2 ]; then
   ...
 ```
 
-## bash: filename manipulation
+## filename manipulation
 ```
 path=/home/blah/pipo.c
 filename=$(basename "$path")
@@ -324,7 +324,7 @@ $errno 95
 EOPNOTSUPP 95 Operation not supported
 ```
 
-## make: how to autogenerate the help, example of makefile:
+## make: how to autogenerate the help, example of a Makefile:
 ```
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -338,27 +338,31 @@ clean:  ## Delete generated pdf files
 
 # Virtualization
 
-## Create a vmdk from a physical disk
-- Create a vmdk from the `/dev/sdb` device:
-  ```
-  vboxmanage internalcommands createrawvmdk -filename usb.vmdk -rawdisk /dev/sdb
-  ```
-- Source: [http://www.howtogeek.com/187721/how-to-boot-from-a-usb-drive-in-virtualbox/](http://www.howtogeek.com/187721/how-to-boot-from-a-usb-drive-in-virtualbox/)
+## To create a qcow2 image file (linux.qcow) from a physical bootable disk (e.g. /dev/sda) with `qemu-img`
+```
+qemu-img.exe convert -f raw -O qcow2 /dev/sda linux.qcow2
+```
 
-## Virtualbox
-- How to fix VirtualBox "UUID already exists" errors
-  ```
-  vboxmanage internalcommands sethduuid my_vm_disk.vmdk
-  ```
+## To create a vmdk image file (linux.vmdk) from a physical bootable disk (e.g. /dev/sda) with VirtualBox
+```
+vboxmanage internalcommands createrawvmdk -filename linux.vmdk -rawdisk /dev/sda
+```
+
+source [here](http://www.howtogeek.com/187721/how-to-boot-from-a-usb-drive-in-virtualbox/)
+
+## To fix VirtualBox's "UUID already exists" errors
+```
+vboxmanage internalcommands sethduuid my_vm_disk.vmdk
+```
 
 # File Manipulation
 
-## To undelete files (note: works better than photorec for jpegs)
+## To undelete files (note: seems to work better than `photorec` for jpegs)
 ```
 magicrescue -r jpeg-jfif -r jpeg-exif -d ~/output /dev/hdb1
 ```
 
-## To recover photos/videos
+## To recover photos and videos
 ```
 photorec
 ```
@@ -444,6 +448,22 @@ amixer -D pulse set Master 2%-
 Toggle output 
 ```
 amixer -D pulse set Master toggle
+```
+
+# git
+
+## To update a repository's remote path
+
+1. Check the repository's current path:
+```
+$ git remote -v
+origin	ssh://git@ssh.hesge.ch:10572/flg_courses/virtualization.git (fetch)
+origin	ssh://git@ssh.hesge.ch:10572/flg_courses/virtualization.git (push)
+```
+
+1. Update the repository with the new path:
+```
+$ git remote set-url origin git@ssh.hesge.ch:10572/flg_courses/virtualization/virtualization.git
 ```
 
 # Software
