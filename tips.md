@@ -452,6 +452,12 @@ amixer -D pulse set Master toggle
 
 # git
 
+## To display the repository's remote path (url)
+
+```
+git remote -v
+```
+
 ## To update a repository's remote path
 
 1. Check the repository's current path:
