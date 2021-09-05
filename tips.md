@@ -1,22 +1,22 @@
-# bash
+# Shell
 
-## To repeat the last command
+## To repeat the last command (bash)
 ```
 !!
 ```
 
-## To recall the argument of the last command
+## To recall the argument of the last command (bash)
 ```
 ls yoyo
 vi !$
 ```
 
-## Replace "ls" in the last command by "tree" 
+## Replace "ls" in the last command by "tree" (bash)
 ```
 ^ls^tree^
 ```
 
-## To ignore a command's alias, e.g. rm here
+## To ignore a command's alias, e.g. rm here (bash)
 ```
 \rm
 ```
@@ -27,14 +27,14 @@ history -c
 history -w
 ```
 
-## Check whether a file exists
+## Check whether a file exists (bash)
 The -a argument means "AND"
 ```
 if [ -f file1 -a -f file2 ]; then
   ...
 ```
 
-## filename manipulation
+## filename manipulation (bash)
 ```
 path=/home/blah/pipo.c
 filename=$(basename "$path")
@@ -60,6 +60,16 @@ tree
 Since LaTeX/pandoc doesn't like the default charset, here is to specify basic ASCII characters:
 ```
 tree --charset ascii
+```
+
+## Use cut to remove the first 28 characters from stdin
+```
+cut -c 28-
+```
+
+## Display all files in the current dir (and sub-dirs) from the largest to the smallest
+```
+ls -laS *|grep -s ^-|cut -c 28-|sort -nr|more
 ```
 
 # Networking
