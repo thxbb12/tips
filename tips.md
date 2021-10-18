@@ -346,6 +346,17 @@ clean:  ## Delete generated pdf files
 	rm -f *.pdf
 ```
 
+# Containers
+
+## If network access in Docker containers seems to be broken
+```
+systemctl stop docker
+systemctl stop docker.socket
+ifconfig docker0 down
+brctl delbr docker0
+systemctl start docker
+```
+
 # Virtualization
 
 ## To create a qcow2 image file (linux.qcow) from a physical bootable disk (e.g. /dev/sda) with `qemu-img`
