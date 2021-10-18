@@ -346,9 +346,19 @@ clean:  ## Delete generated pdf files
 	rm -f *.pdf
 ```
 
-# Containers
+# Docker
 
-## If network access in Docker containers seems to be broken
+# To remove all containers
+```
+docker ps -a|grep -v CONTAINER|awk {'print $1'}|xargs docker rm
+```
+
+## To remove all \<none\> images
+```
+docker images|grep -v IMAGE|grep "<none>"|awk {'print $3'}|xargs docker rmi
+```
+
+## If network access in containers seems to be broken
 ```
 systemctl stop docker
 systemctl stop docker.socket
