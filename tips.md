@@ -104,6 +104,31 @@ then type:
 rsync -rav --delete  ~/Videos/Cartoons/ .
 ```
 
+# Dropbox
+
+## Mark files/directories to be ignored by Dropbox
+
+Dropbox uses file extended attributes for various things.
+A specific attribute "user.com.dropbox.ignored" tells Dropbox to ignore a file or directory (and all its content).
+
+To mark a file/directory to be ignored:
+
+```
+setfattr -n user.com.dropbox.ignored -v 1 my_file
+```
+
+To remove the mark:
+
+```
+setfattr -x user.com.dropbox.ignored my_file
+```
+
+## Recursively mark all directories ending in ".git" to be ignored by Dropbox:
+
+```
+find ~/Dropbox -type d -name "*.git" -exec setfattr -n user.com.dropbox.ignored -v 1 {} \;
+```
+
 # System Config
 
 ## To make text boot the default under systemd
