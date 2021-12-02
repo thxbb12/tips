@@ -72,6 +72,19 @@ cut -c 28-
 ls -laS *|grep -s ^-|cut -c 28-|sort -nr|more
 ```
 
+# File conversions
+
+## Convert cannot convert image to PDF
+
+If you get this error image when trying to convert an image to PDF:
+`convert-im6.q16: attempt to perform an operation not allowed by the security policy `PDF' @ error/constitute.c/IsCoderAuthorized/408.`
+
+Then edit `/etc/ImageMagick-N/policy.xml` (where `N` is your ImageMagick version) and uncomment the following line:
+
+```
+<policy domain="module" rights="none" pattern="{PS,PDF,XPS}" />
+```
+
 # Networking
 
 ## To scan all open http ports on a given subnetwork
