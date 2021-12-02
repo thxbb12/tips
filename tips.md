@@ -74,15 +74,22 @@ ls -laS *|grep -s ^-|cut -c 28-|sort -nr|more
 
 # File conversions
 
-## Convert cannot convert image to PDF
+## Convert images to PDF using ImageMagick
 
-If you get this error image when trying to convert an image to PDF:
-`convert-im6.q16: attempt to perform an operation not allowed by the security policy `PDF' @ error/constitute.c/IsCoderAuthorized/408.`
+ImageMagick's convert utility can convert images to PDF. However, converting to PDF is disabled/forbidden by default on Ubuntu.
 
-Then edit `/etc/ImageMagick-N/policy.xml` (where `N` is your ImageMagick version) and uncomment the following line:
+To enable it:
+
+Edit `/etc/ImageMagick-N/policy.xml` (where `N` is your ImageMagick version) and change:
 
 ```
-<policy domain="module" rights="none" pattern="{PS,PDF,XPS}" />
+<policy domain="coder" rights="none" pattern="PDF" />
+```
+
+to:
+
+```
+<policy domain="coder" rights="read|write" pattern="PDF" />
 ```
 
 # Networking
