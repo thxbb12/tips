@@ -548,6 +548,14 @@ origin	ssh://git@ssh.hesge.ch:10572/flg_courses/virtualization.git (push)
 $ git remote set-url origin git@ssh.hesge.ch:10572/flg_courses/virtualization/virtualization.git
 ```
 
+## Checkout a git repository before a given date
+
+To checkout a git repository before a given date:
+
+```
+git rev-list -n1 --before="2020-06-25 08:00" master | xargs git checkout
+```
+
 # Software
 
  ## PDF Annotation
