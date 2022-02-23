@@ -151,6 +151,19 @@ find ~/Dropbox -type d -name "*.git" -exec setfattr -n user.com.dropbox.ignored 
 
 # System Config
 
+## Systemd essentials
+
+[https://www.digitalocean.com/community/tutorials/systemd-essentials-working-with-services-units-and-the-journal](https://www.digitalocean.com/community/tutorials/systemd-essentials-working-with-services-units-and-the-journal)
+
+## To prevent suspend when the lid is closed
+Add the following to `/etc/systemd/logind.conf`
+```
+[Login] 
+HandleLidSwitch=ignore 
+HandleLidSwitchDocked=ignore
+```
+Source [here](https://ostechnix.com/linux-tips-disable-suspend-and-hibernation/)
+
 ## To make text boot the default under systemd
 ```
 systemctl set-default multi-user.target
