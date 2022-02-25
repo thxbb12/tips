@@ -74,6 +74,13 @@ ls -laS *|grep -s ^-|cut -c 28-|sort -nr|more
 
 # File conversions
 
+## PDF conversion
+
+Sometimes PDF are not readable by all software. In this case, Ghostscript can help: it can read the file and write it in a more compatible format:
+```
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE -dQUIET -dBATCH -soutput.pdf input.pdf
+```
+
 ## Convert images to PDF using ImageMagick
 
 ImageMagick's convert utility can convert images to PDF. However, converting to PDF is disabled/forbidden by default on Ubuntu.
