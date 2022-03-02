@@ -158,6 +158,24 @@ find ~/Dropbox -type d -name "*.git" -exec setfattr -n user.com.dropbox.ignored 
 
 # System Config
 
+## Issue: touchpad not working after suspend
+
+The fix depends on the touchpad.
+
+Solution 1:
+```
+modprobe -r i2c_hid && modprobe i2c_hid
+```
+
+```
+modprobe -r psmouse && modprobe psmouse
+```
+
+Even better: you can create a systemd service that runs after a suspend to enable the touchpad again:
+
+https://askubuntu.com/questions/1124045/touchpad-scroll-not-working-properly-after-suspend/1125645
+
+
 ## Systemd essentials
 
 [https://www.digitalocean.com/community/tutorials/systemd-essentials-working-with-services-units-and-the-journal](https://www.digitalocean.com/community/tutorials/systemd-essentials-working-with-services-units-and-the-journal)
