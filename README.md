@@ -1,3 +1,374 @@
+## Contents
+
+* [Archives](#archives)
+* [Audio manipulation](#audio-manipulation)
+* [Docker](#docker)
+* [Dropbox](#dropbox)
+* [File conversions](#file-conversions)
+* [File manipulation](#file-manipulation)
+* [File synchronization](#file-synchronization)
+* [Filesystems](#filesystems)
+* [Find](#find)
+* [Fonts](#fonts)
+* [git](#git)
+* [Image manipulation](#image-manipulation)
+* [Keyboard](#keyboard)
+* [Networking](#networking)
+* [Programming](#programming)
+* [Screen](#screen)
+* [Shell](#shell)
+* [Software](#software)
+* [SSH](#ssh)
+* [System config](#System-config)
+* [Touchpad](#touchpad)
+* [Video manipulation](#video-manipulation)
+* [Virtualization](#virtualization)
+
+# Archives
+
+## To create a tar.gz archive and preserve permissions and symlinks
+sudo tar -p -z -chf archive.tar.gz files
+
+## To restore archive above with original links
+sudo tar -p -xhf archive.tar.gz
+
+# Audio manipulation
+
+## Commands to control the volume (alsa)
+Increase volume
+```
+amixer -D pulse set Master 2%+
+```
+Decrease volume
+```
+amixer -D pulse set Master 2%-
+```
+Toggle output 
+```
+amixer -D pulse set Master toggle
+```
+
+# Docker
+
+## To remove all containers
+```
+docker ps -a|grep -v CONTAINER|awk {'print $1'}|xargs docker rm
+```
+
+## To remove all \<none\> images
+```
+docker images|grep -v IMAGE|grep "<none>"|awk {'print $3'}|xargs docker rmi
+```
+
+## If network access in containers seems to be broken
+```
+systemctl stop docker
+systemctl stop docker.socket
+ifconfig docker0 down
+brctl delbr docker0
+systemctl start docker
+```
+
+# Dropbox
+
+## Mark files/directories to be ignored by Dropbox
+
+Dropbox uses file extended attributes for various things.
+A specific attribute "user.com.dropbox.ignored" tells Dropbox to ignore a file or directory (and all its content).
+
+To mark a file/directory to be ignored:
+
+```
+setfattr -n user.com.dropbox.ignored -v 1 my_file
+```
+
+To remove the mark:
+
+```
+setfattr -x user.com.dropbox.ignored my_file
+```
+
+## Recursively mark all directories ending in ".git" to be ignored by Dropbox:
+
+```
+find ~/Dropbox -type d -name "*.git" -exec setfattr -n user.com.dropbox.ignored -v 1 {} \;
+```
+
+# File conversions
+
+## PDF conversion
+
+Sometimes PDF are not readable by all software. In this case, Ghostscript can help: it can read the file and write it in a more compatible format:
+```
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE -dQUIET -dBATCH -soutput.pdf input.pdf
+```
+
+## Convert images to PDF using ImageMagick
+
+ImageMagick's convert utility can convert images to PDF. However, converting to PDF is disabled/forbidden by default on Ubuntu.
+
+To enable it:
+
+Edit `/etc/ImageMagick-N/policy.xml` (where `N` is your ImageMagick version) and change:
+
+```
+<policy domain="coder" rights="none" pattern="PDF" />
+```
+
+to:
+
+```
+<policy domain="coder" rights="read|write" pattern="PDF" />
+```
+
+# File manipulation
+
+## To undelete files (note: seems to work better than `photorec` for jpegs)
+```
+magicrescue -r jpeg-jfif -r jpeg-exif -d ~/output /dev/hdb1
+```
+
+## To recover photos and videos
+```
+photorec
+```
+
+## To delete all duplicate files in the current dir
+```
+fdupes . -d -N
+```
+
+## Convert a file from UTF-8 to ISO-8859-15:
+```
+recode UTF8..ISO-8859-15 file.txt
+```
+
+## Convert newlines from LF (UNIX) to CR-LF (DOS):
+```
+recode ../CR-LF file.txt
+```
+
+## To convert txt files to ps
+Note: a2ps cannot read UTF-8 files! (use recode to convert from UTF-8)
+```
+a2ps --columns=1 -l165 -o output.ps input.txt
+```
+
+## To replace multiple occurences of space in `myfile`
+```
+cat myfile|tr -s \
+```
+
+# File synchronization
+
+## To rsync movies from PC to tablet
+Mount the tablet and open a terminal in its Cartoon folder (e.g. `/run/user/1000/gvfs/mtp:host=%5Busb%3A003%2C033%5D/Card/Vidéos/Cartoons`),
+then type:
+```
+rsync -rav --delete  ~/Videos/Cartoons/ .
+```
+
+# Filesystems
+
+## Issues mounting an NTF partition
+If you get the following message when trying to mount an ntfs partition:
+```
+Windows is hibernated, refused to mount.
+Failed to mount '/dev/sdj2': Operation not permitted
+The NTFS partition is in an unsafe state. Please resume and shutdown
+Windows fully (no hibernation or fast restarting), or mount the volume
+read-only with the 'ro' mount option.
+```
+This mount option should fix it:
+```
+mount -o remove_hiberfile /dev/sdj2 mnt
+```
+
+## Best way to display mountpoints and their hierarchy
+```
+findmnt
+```
+
+# Find
+
+## To pass multiple arguments to find
+```
+find . -iname "*.c" -o -iname "*.h"
+```
+
+## Locate all SUID binaries
+```
+find / -perm -4000 2>/dev/null
+```
+
+## To locate all files writable by anyone
+```
+sudo find / -perm -o+w
+```
+
+## Display files whose' status have changed in the last 10 hours
+```
+find . -type f -cmin -600 
+```
+
+## To find files in /home within a certain date range (between June 11th 2010 and June 18th 2010)
+```
+touch --date "2010-06-11" /tmp/start
+touch --date "2010-06-18" /tmp/end
+find /home -type f -newer /tmp/start -not -newer /tmp/end
+```
+
+## To delete all .txt files under 10k
+```
+find -iname "*.txt" -size -10k -delete
+```
+
+# Fonts
+
+## To install and register ttf fonts (per user):
+Create the .fonts directory and copy the ttf file in it:
+```
+mkdir ~/.fonts
+```
+Then update the font cache:
+```
+sudo fc-cache -fv
+```
+
+# git
+
+## To display the repository's remote path (url)
+
+```
+git remote -v
+```
+
+## To update a repository's remote path
+
+1. Check the repository's current path:
+```
+$ git remote -v
+origin	ssh://git@ssh.hesge.ch:10572/flg_courses/virtualization.git (fetch)
+origin	ssh://git@ssh.hesge.ch:10572/flg_courses/virtualization.git (push)
+```
+
+1. Update the repository with the new path:
+```
+$ git remote set-url origin git@ssh.hesge.ch:10572/flg_courses/virtualization/virtualization.git
+```
+
+## Checkout a git repository before a given date
+
+To checkout a git repository before a given date:
+
+```
+git rev-list -n1 --before="2020-06-25 08:00" master | xargs git checkout
+```
+
+# Image manipulation
+
+## Crop a 1000x400 pixels area at coordinates 1700,900 (uses imagemagick)
+```
+convert -crop 1000x400+1700+900 src.jpg dest.jpg
+```
+
+## To rotate or flip a jpeg losslessly
+```
+jpegtran -rotate 90 image.jpg
+jpegtran -flip horizontal image.jpg
+```
+
+# Keyboard
+
+## Set keyboard delay (in ms) and repetition rate (char/sec)
+```
+xset r rate 200 30
+```
+
+## Force an update of the keyboard config
+```
+dpkg-reconfigure keyboard-configuration
+systemctl restart keyboard-setup.service
+```
+
+# Networking
+
+## To scan all open http ports on a given subnetwork
+```
+nmap -p 80 192.168.1.*
+```
+
+## iptables: to block TCP traffic for user joe
+```
+iptables -A OUTPUT -p tcp -m owner --uid-owner joe -j DROP
+```
+
+## To remove all rules from iptables
+```
+iptables -F
+```
+
+# Programming
+
+## In C, one can pass an array "in place" as an argument:
+
+```
+void printtab(int *tab, int size) {
+    for (int i = 0; i < size; i++)
+        printf("%d\n", tab[i]);
+}
+
+void main() {
+    printtab((int[]){ 13,5,9,-10}, 4);
+}
+```
+
+## In C, how to get the offset in bytes of a field in a structure
+```
+offsetof(struct xxx, field)
+```
+
+## In C, to printf a string that doesn't end with 0
+```
+char t[] = {'a','b','c'}; // does NOT have a 0 terminal
+printf("%s*\n", t, 3);
+```
+
+## To find errno error numbers
+```
+apt-get install moreutils
+```
+Then, use the `errno` command
+```
+$errno 95
+EOPNOTSUPP 95 Operation not supported
+```
+
+## make: how to autogenerate the help, example of a Makefile:
+```
+help:
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+pdf: $(SRCS)  ## Generate pdf files
+	pandoc ....
+
+clean:  ## Delete generated pdf files
+	rm -f *.pdf
+```
+
+# Screen
+
+## Reset screen resolution to default
+```
+xrandr -s 0
+```
+
+## Turn off screen
+```
+# standby, suspend, off
+xset dpms force standby
+```
+
 # Shell
 
 ## To repeat the last command (bash)
@@ -72,91 +443,83 @@ cut -c 28-
 ls -laS *|grep -s ^-|cut -c 28-|sort -nr|more
 ```
 
-# File conversions
+# Software
 
-## PDF conversion
+ ## PDF Annotation
 
-Sometimes PDF are not readable by all software. In this case, Ghostscript can help: it can read the file and write it in a more compatible format:
+ ### Best apps
+- xournalpp [https://github.com/xournalpp/xournalpp](https://github.com/xournalpp/xournalpp)
+
+## Video Editing
+
+### Best apps
+- ffmpeg [https://ffmpeg.org/](https://ffmpeg.org/)
+	- 19 FFmpeg Commands For All Needs: https://catswhocode.com/ffmpeg-commands/
+- OpenShot [https://www.openshot.org/](https://www.openshot.org/)
+- Kdenlive [https://kdenlive.org/en/](https://kdenlive.org/en/)
+- Lossless-cut [https://github.com/mifi/lossless-cut](https://github.com/mifi/lossless-cut)
+
+## Screen Recording/Streaming
+
+### Best apps
+- OBS Studio [https://obsproject.com/](https://obsproject.com/)
+- SimpleScreenRecorder [https://www.maartenbaert.be/simplescreenrecorder/](https://www.maartenbaert.be/simplescreenrecorder/)
+- Kazam [https://github.com/hzbd/kazam](https://github.com/hzbd/kazam)
+- VokoscreenNG [https://github.com/vkohaupt/vokoscreenNG](https://github.com/vkohaupt/vokoscreenNG)
+
+## Video Conferencing
+
+### Best apps
+- Jitsi [https://jitsi.org/](https://jitsi.org/)
+- BigBlueButton [https://bigbluebutton.org/](https://bigbluebutton.org/)
+- [https://obs.ninja](https://obs.ninja)
+
+## Code Editing
+
+### Best apps
+- vim [https://www.vim.org/](https://www.vim.org/)
+- Geany [https://www.geany.org/](https://www.geany.org/)
+- VSCodium [https://vscodium.com/](https://vscodium.com/)
+- IntelliJ IDEA [https://www.jetbrains.com/idea/](https://www.jetbrains.com/idea/)
+
+### vim: convert tabs into spaces
 ```
-gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE -dQUIET -dBATCH -soutput.pdf input.pdf
-```
-
-## Convert images to PDF using ImageMagick
-
-ImageMagick's convert utility can convert images to PDF. However, converting to PDF is disabled/forbidden by default on Ubuntu.
-
-To enable it:
-
-Edit `/etc/ImageMagick-N/policy.xml` (where `N` is your ImageMagick version) and change:
-
-```
-<policy domain="coder" rights="none" pattern="PDF" />
-```
-
-to:
-
-```
-<policy domain="coder" rights="read|write" pattern="PDF" />
-```
-
-# Networking
-
-## To scan all open http ports on a given subnetwork
-```
-nmap -p 80 192.168.1.*
-```
-
-## iptables: to block TCP traffic for user joe
-```
-iptables -A OUTPUT -p tcp -m owner --uid-owner joe -j DROP
-```
-
-## To remove all rules from iptables
-```
-iptables -F
-```
-
-# Archives/file Synchronization
-
-## To create a tar.gz archive and preserve permissions and symlinks
-sudo tar -p -z -chf archive.tar.gz files
-
-### To restore archive above with original links
-sudo tar -p -xhf archive.tar.gz
-
-## To rsync movies from PC to tablet
-Mount the tablet and open a terminal in its Cartoon folder (e.g. `/run/user/1000/gvfs/mtp:host=%5Busb%3A003%2C033%5D/Card/Vidéos/Cartoons`),
-then type:
-```
-rsync -rav --delete  ~/Videos/Cartoons/ .
+:set expandtab
+:set tabstop=4
+:retab
 ```
 
-# Dropbox
+### vscode: to preview a markdown (`.md`) file
+- Press "ctrl+alt+v"
 
-## Mark files/directories to be ignored by Dropbox
+## File Manager
 
-Dropbox uses file extended attributes for various things.
-A specific attribute "user.com.dropbox.ignored" tells Dropbox to ignore a file or directory (and all its content).
-
-To mark a file/directory to be ignored:
-
+### Nautilus to stop tracking recent files
 ```
-setfattr -n user.com.dropbox.ignored -v 1 my_file
+sudo apt-get install activity-log-manager
+turn off "Record file and application usage"
 ```
 
-To remove the mark:
+## Debuggers (gdb frontends)
+
+- gdbgui [https://www.gdbgui.com/](https://www.gdbgui.com/)
+
+# SSH
+
+## If you get an error authenticating using a ssh keypair
+For instance github would output the following error message: "Permission denied (publickey).".
+This is because the ssh-agent cannot find the right private key on your system.
+Add the private key manually with `ssh-add PATH` where PATH is the path to the private key (e.g. `/home/joe/.ssh/id_rsa_github`)
+
+# System config
+
+## Disable unattended-upgrades
+
+To prevent the system from automatically downloading and installing updates:
 
 ```
-setfattr -x user.com.dropbox.ignored my_file
+sudo dpkg-reconfigure unattended-upgrades
 ```
-
-## Recursively mark all directories ending in ".git" to be ignored by Dropbox:
-
-```
-find ~/Dropbox -type d -name "*.git" -exec setfattr -n user.com.dropbox.ignored -v 1 {} \;
-```
-
-# System Config
 
 ## Issue: touchpad not working after suspend
 
@@ -272,106 +635,12 @@ ExecStart=-/sbin/agetty -a joe --noclear %I $TERM
 - Pressing ctrl+alt+F2 should now automatically log in user joe!
 - Source: [https://askubuntu.com/questions/659267/how-do-i-override-or-configure-systemd-services](https://askubuntu.com/questions/659267/how-do-i-override-or-configure-systemd-services)
 
-# Find
-
-## To pass multiple arguments to find
-```
-find . -iname "*.c" -o -iname "*.h"
-```
-
-## Locate all SUID binaries
-```
-find / -perm -4000 2>/dev/null
-```
-
-## To locate all files writable by anyone
-```
-sudo find / -perm -o+w
-```
-
-## Display files whose' status have changed in the last 10 hours
-```
-find . -type f -cmin -600 
-```
-
-## To find files in /home within a certain date range (between June 11th 2010 and June 18th 2010)
-```
-touch --date "2010-06-11" /tmp/start
-touch --date "2010-06-18" /tmp/end
-find /home -type f -newer /tmp/start -not -newer /tmp/end
-```
-
-## To delete all .txt files under 10k
-```
-find -iname "*.txt" -size -10k -delete
-```
-
-# File Systems
-
-## Issues mounting an NTF partition
-If you get the following message when trying to mount an ntfs partition:
-```
-Windows is hibernated, refused to mount.
-Failed to mount '/dev/sdj2': Operation not permitted
-The NTFS partition is in an unsafe state. Please resume and shutdown
-Windows fully (no hibernation or fast restarting), or mount the volume
-read-only with the 'ro' mount option.
-```
-This mount option should fix it:
-```
-mount -o remove_hiberfile /dev/sdj2 mnt
-```
-
-## Best way to display mountpoints and their hierarchy
-```
-findmnt
-```
-
-# Fonts
-
-## To install and register ttf fonts (per user):
-Create the .fonts directory and copy the ttf file in it:
-```
-mkdir ~/.fonts
-```
-Then update the font cache:
-```
-sudo fc-cache -fv
-```
-
-# Keyboard
-
-## Set keyboard delay (in ms) and repetition rate (char/sec)
-```
-xset r rate 200 30
-```
-
-## Force an update of the keyboard config
-```
-dpkg-reconfigure keyboard-configuration
-systemctl restart keyboard-setup.service
-```
-
 # Touchpad
 
 ## Command to disable/enable the touchpad
 ```
 synclient TouchpadOff=1
 synclient TouchpadOff=0
-```
-
-# SSH
-
-## If you get an error authenticating using a ssh keypair
-For instance github would output the following error message: "Permission denied (publickey).".
-This is because the ssh-agent cannot find the right private key on your system.
-Add the private key manually with `ssh-add PATH` where PATH is the path to the private key (e.g. `/home/joe/.ssh/id_rsa_github`)
-
-# Screen
-
-## Change to default resolution
-```
-xrandr -s 0
 ```
 
 ## To turn off, suspend or standby the screen
@@ -381,133 +650,7 @@ xset dpms force suspend
 xset dpms force standby
 ```
 
-# Programming
-
-## In C, one can pass an array "in place" as an argument:
-
-```
-void printtab(int *tab, int size) {
-    for (int i = 0; i < size; i++)
-        printf("%d\n", tab[i]);
-}
-
-void main() {
-    printtab((int[]){ 13,5,9,-10}, 4);
-}
-```
-
-## In C, how to get the offset in bytes of a field in a structure
-```
-offsetof(struct xxx, field)
-```
-
-## In C, to printf a string that doesn't end with 0
-```
-char t[] = {'a','b','c'}; // does NOT have a 0 terminal
-printf("%s*\n", t, 3);
-```
-
-## To find errno error numbers
-```
-apt-get install moreutils
-```
-Then, use the `errno` command
-```
-$errno 95
-EOPNOTSUPP 95 Operation not supported
-```
-
-## make: how to autogenerate the help, example of a Makefile:
-```
-help:
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-
-pdf: $(SRCS)  ## Generate pdf files
-	pandoc ....
-
-clean:  ## Delete generated pdf files
-	rm -f *.pdf
-```
-
-# Docker
-
-# To remove all containers
-```
-docker ps -a|grep -v CONTAINER|awk {'print $1'}|xargs docker rm
-```
-
-## To remove all \<none\> images
-```
-docker images|grep -v IMAGE|grep "<none>"|awk {'print $3'}|xargs docker rmi
-```
-
-## If network access in containers seems to be broken
-```
-systemctl stop docker
-systemctl stop docker.socket
-ifconfig docker0 down
-brctl delbr docker0
-systemctl start docker
-```
-
-# Virtualization
-
-## To create a qcow2 image file (linux.qcow) from a physical bootable disk (e.g. /dev/sda) with `qemu-img`
-```
-qemu-img.exe convert -f raw -O qcow2 /dev/sda linux.qcow2
-```
-
-## To create a vmdk image file (linux.vmdk) from a physical bootable disk (e.g. /dev/sda) with VirtualBox
-```
-vboxmanage internalcommands createrawvmdk -filename linux.vmdk -rawdisk /dev/sda
-```
-
-source [here](http://www.howtogeek.com/187721/how-to-boot-from-a-usb-drive-in-virtualbox/)
-
-## To fix VirtualBox's "UUID already exists" errors
-```
-vboxmanage internalcommands sethduuid my_vm_disk.vmdk
-```
-
-# File Manipulation
-
-## To undelete files (note: seems to work better than `photorec` for jpegs)
-```
-magicrescue -r jpeg-jfif -r jpeg-exif -d ~/output /dev/hdb1
-```
-
-## To recover photos and videos
-```
-photorec
-```
-
-## To delete all duplicate files in the current dir
-```
-fdupes . -d -N
-```
-
-## Convert a file from UTF-8 to ISO-8859-15:
-```
-recode UTF8..ISO-8859-15 file.txt
-```
-
-## Convert newlines from LF (UNIX) to CR-LF (DOS):
-```
-recode ../CR-LF file.txt
-```
-
-## To convert txt files to ps
-Note: a2ps cannot read UTF-8 files! (use recode to convert from UTF-8)
-```
-a2ps --columns=1 -l165 -o output.ps input.txt
-```
-
-## To replace multiple occurences of space in `myfile`
-```
-cat myfile|tr -s \
-```
-
-# Video Manipulation
+# Video manipulation
 
 ## To rotate a video
 - 0 = 90° counter clockwise + vertical flip
@@ -535,122 +678,21 @@ file 'vid2.mp4'
 file 'vid3.mp4'
 ```
 
-# Image Manipulation
+# Virtualization
 
-## Crop a 1000x400 pixels area at coordinates 1700,900 (uses imagemagick)
+## To create a qcow2 image file (linux.qcow) from a physical bootable disk (e.g. /dev/sda) with `qemu-img`
 ```
-convert -crop 1000x400+1700+900 src.jpg dest.jpg
-```
-
-## To rotate or flip a jpeg losslessly
-```
-jpegtran -rotate 90 image.jpg
-jpegtran -flip horizontal image.jpg
+qemu-img.exe convert -f raw -O qcow2 /dev/sda linux.qcow2
 ```
 
-# Audio Manipulation
-
-## Commands to control the volume (alsa)
-Increase volume
+## To create a vmdk image file (linux.vmdk) from a physical bootable disk (e.g. /dev/sda) with VirtualBox
 ```
-amixer -D pulse set Master 2%+
-```
-Decrease volume
-```
-amixer -D pulse set Master 2%-
-```
-Toggle output 
-```
-amixer -D pulse set Master toggle
+vboxmanage internalcommands createrawvmdk -filename linux.vmdk -rawdisk /dev/sda
 ```
 
-# git
+source [here](http://www.howtogeek.com/187721/how-to-boot-from-a-usb-drive-in-virtualbox/)
 
-## To display the repository's remote path (url)
-
+## To fix VirtualBox's "UUID already exists" errors
 ```
-git remote -v
+vboxmanage internalcommands sethduuid my_vm_disk.vmdk
 ```
-
-## To update a repository's remote path
-
-1. Check the repository's current path:
-```
-$ git remote -v
-origin	ssh://git@ssh.hesge.ch:10572/flg_courses/virtualization.git (fetch)
-origin	ssh://git@ssh.hesge.ch:10572/flg_courses/virtualization.git (push)
-```
-
-1. Update the repository with the new path:
-```
-$ git remote set-url origin git@ssh.hesge.ch:10572/flg_courses/virtualization/virtualization.git
-```
-
-## Checkout a git repository before a given date
-
-To checkout a git repository before a given date:
-
-```
-git rev-list -n1 --before="2020-06-25 08:00" master | xargs git checkout
-```
-
-# Software
-
- ## PDF Annotation
-
- ### Best apps
-- xournalpp [https://github.com/xournalpp/xournalpp](https://github.com/xournalpp/xournalpp)
-
-## Video Editing
-
-### Best apps
-- ffmpeg [https://ffmpeg.org/](https://ffmpeg.org/)
-	- 19 FFmpeg Commands For All Needs: https://catswhocode.com/ffmpeg-commands/
-- OpenShot [https://www.openshot.org/](https://www.openshot.org/)
-- Kdenlive [https://kdenlive.org/en/](https://kdenlive.org/en/)
-- Lossless-cut [https://github.com/mifi/lossless-cut](https://github.com/mifi/lossless-cut)
-
-## Screen Recording/Streaming
-
-### Best apps
-- OBS Studio [https://obsproject.com/](https://obsproject.com/)
-- SimpleScreenRecorder [https://www.maartenbaert.be/simplescreenrecorder/](https://www.maartenbaert.be/simplescreenrecorder/)
-- Kazam [https://github.com/hzbd/kazam](https://github.com/hzbd/kazam)
-- VokoscreenNG [https://github.com/vkohaupt/vokoscreenNG](https://github.com/vkohaupt/vokoscreenNG)
-
-## Video Conferencing
-
-### Best apps
-- Jitsi [https://jitsi.org/](https://jitsi.org/)
-- BigBlueButton [https://bigbluebutton.org/](https://bigbluebutton.org/)
-- [https://obs.ninja](https://obs.ninja)
-
-## Code Editing
-
-### Best apps
-- vim [https://www.vim.org/](https://www.vim.org/)
-- Geany [https://www.geany.org/](https://www.geany.org/)
-- VSCodium [https://vscodium.com/](https://vscodium.com/)
-- IntelliJ IDEA [https://www.jetbrains.com/idea/](https://www.jetbrains.com/idea/)
-
-### vim: convert tabs into spaces
-```
-:set expandtab
-:set tabstop=4
-:retab
-```
-
-### vscode: to preview a markdown (`.md`) file
-- Press "ctrl+alt+v"
-
-## File Manager
-
-### Nautilus to stop tracking recent files
-```
-sudo apt-get install activity-log-manager
-turn off "Record file and application usage"
-```
-
-## Debuggers (gdb frontends)
-
-- gdbgui [https://www.gdbgui.com/](https://www.gdbgui.com/)
