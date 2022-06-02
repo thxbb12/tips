@@ -513,6 +513,22 @@ Add the private key manually with `ssh-add PATH` where PATH is the path to the p
 
 # System config
 
+## Clear the path cache to executables
+
+Bash caches the path to executables found in the PATH variable environment. If you remove a program that was installed in the PATH, bash might complain it doesn't find it in the cached directory.
+
+This cache can be cleared with:
+
+```
+hash -r
+```
+
+or to clear a single entry (where the program is `go`):
+
+```
+hash -d go
+```
+
 ## Disable unattended-upgrades
 
 To prevent the system from automatically downloading and installing updates:
