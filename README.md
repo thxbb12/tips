@@ -293,6 +293,27 @@ systemctl restart keyboard-setup.service
 
 # Networking
 
+## To list wireless devices
+```
+rfkill list
+
+```
+
+## To unblock all wireless devices
+```
+sudo rfkill unblock all
+```
+
+## To list network interfaces managed by NetworkManager and their states:
+```
+nmcli
+```
+
+## To activate an interface that's listed as "unavailable" in NetworkManager: 
+```
+nmcli r wifi on
+```
+
 ## To scan all open http ports on a given subnetwork
 ```
 nmap -p 80 192.168.1.*
