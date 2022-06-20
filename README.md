@@ -2,6 +2,7 @@
 
 * [Archives](#archives)
 * [Audio manipulation](#audio-manipulation)
+* [Compression](#compression)
 * [Docker](#docker)
 * [Dropbox](#dropbox)
 * [File conversions](#file-conversions)
@@ -46,6 +47,16 @@ amixer -D pulse set Master 2%-
 Toggle output 
 ```
 amixer -D pulse set Master toggle
+```
+
+# Compression
+
+## Reduce an executable's size using live-compression
+
+Require the `upx-ucl` tool which compresses an executable and embeds the decompressor into it:
+```
+sudo apt-get install upx-ucl
+upx <executable>
 ```
 
 # Docker
