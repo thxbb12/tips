@@ -191,6 +191,10 @@ findmnt
 
 # Find
 
+## Print the file name and exec more than one command
+
+find . -name "*.c" -type f -printf "%p\n" -exec cat {} \; -exec echo "" \;
+
 ## To pass multiple arguments to find
 ```
 find . -iname "*.c" -o -iname "*.h"
