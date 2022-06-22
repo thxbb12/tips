@@ -202,6 +202,18 @@ findmnt
 
 # Find
 
+## Recursively search all occurences of "fork" in all "*.c" files from the current directory
+
+```
+find . -name "*.c" -exec grep -H fork {} \;
+```
+
+## Same as above with grep only (also prints the line number); add "-i" to be can insensitive on the "fork" pattern
+
+```
+grep -rn fork --include=*.c
+```
+
 ## Print the file name and exec more than one command
 
 find . -name "*.c" -type f -printf "%p\n" -exec cat {} \; -exec echo "" \;
