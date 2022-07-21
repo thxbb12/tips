@@ -53,7 +53,8 @@ amixer -D pulse set Master toggle
 
 ## Reduce an executable's size using live-compression
 
-Require the `upx-ucl` tool which compresses an executable and embeds the decompressor into it:
+Particularly useful with go binaries as they tend to be quite large.
+Require the `upx-ucl` package. Upx compresses an executable and embeds the decompressor into it:
 ```
 sudo apt-get install upx-ucl
 upx <executable>
@@ -357,6 +358,11 @@ iptables -F
 ```
 
 # Programming
+
+## To generate a static binary with golang
+```
+CGO_ENABLED=0 GOOS=linux go build -a -ldflags="-s -w" -installsuffix cgo
+```
 
 ## In C, one can pass an array "in place" as an argument:
 
