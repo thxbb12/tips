@@ -319,10 +319,13 @@ dpkg-reconfigure keyboard-configuration
 systemctl restart keyboard-setup.service
 ```
 
-## Add binding to clear the screen with ctrl+l
-Add this line to `/etc/inputrc`:
+## Add useful key bindings to clear screen, move cursor, etc. (ctrl+l, ctrl+e, etc.)
+Add these lines at the end of `/etc/inputrc`:
 ```
 "\C-l": clear-screen
+"\C-k": kill-line
+"\C-a": beginning-of-line
+"\C-e": end-of-line
 ```
 You can also display the current bindings with `bind -P`
 
