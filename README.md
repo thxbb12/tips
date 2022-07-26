@@ -319,6 +319,13 @@ dpkg-reconfigure keyboard-configuration
 systemctl restart keyboard-setup.service
 ```
 
+## Add binding to clear the screen with ctrl+l
+Add this line to `/etc/inputrc`:
+```
+"\C-l": clear-screen
+```
+You can also display the current bindings with `bind -P`
+
 # Networking
 
 ## To list wireless devices
