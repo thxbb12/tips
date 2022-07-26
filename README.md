@@ -310,7 +310,7 @@ jpegtran -flip horizontal image.jpg
 
 ## Set keyboard delay (in ms) and repetition rate (char/sec)
 ```
-xset r rate 200 30
+xset r rate 250 50
 ```
 
 ## Force an update of the keyboard config
