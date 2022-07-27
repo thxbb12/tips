@@ -572,8 +572,13 @@ turn off "Record file and application usage"
 
 ## If you get an error authenticating using a ssh keypair
 For instance github would output the following error message: "Permission denied (publickey).".
-This is because the ssh-agent cannot find the right private key on your system.
-To add it to the ssh-agent:
+The ssh client doesn't find the right private key. There 2 solutions:
+
+1. Explicitely tell ssh which key to use with the `-i` option:
+```
+ssh -i ~/.ssh/the_priv_key ...
+```
+1. Add the key to ssh-agent:
 ```
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/the_private_key
