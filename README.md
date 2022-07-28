@@ -314,9 +314,16 @@ xset r rate 250 50
 ```
 
 ## Force an update of the keyboard config
+Ubuntu:
 ```
 dpkg-reconfigure keyboard-configuration
 systemctl restart keyboard-setup.service
+```
+Debian:
+```
+dpkg-reconfigure keyboard-configuration
+apt-get install console-setup
+# or if already installed: dpkg-reconfigure console-setup
 ```
 
 ## Add useful key bindings to clear screen, move cursor, etc. (ctrl+l, ctrl+e, etc.)
