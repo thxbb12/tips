@@ -239,6 +239,9 @@ sudo find / -perm -o+w
 find . -type f -cmin -600 
 ```
 
+## Delete all files in /tmp that are older than 1 day
+find /tmp -type f -mtime +1 -exec rm -f {} \;
+
 ## To find files in /home within a certain date range (between June 11th 2010 and June 18th 2010)
 ```
 touch --date "2010-06-11" /tmp/start
