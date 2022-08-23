@@ -1,7 +1,7 @@
 ## Contents
 
 * [Archives](#archives)
-* [Audio manipulation](#audio-manipulation)
+* [Audio](#audio)
 * [Compression](#compression)
 * [Docker](#docker)
 * [Dropbox](#dropbox)
@@ -33,7 +33,7 @@ sudo tar -p -z -chf archive.tar.gz files
 ## To restore archive above with original links
 sudo tar -p -xhf archive.tar.gz
 
-# Audio manipulation
+# Audio
 
 ## Commands to control the volume (alsa)
 Increase volume
@@ -48,6 +48,10 @@ Toggle output
 ```
 amixer -D pulse set Master toggle
 ```
+
+## Fix the no sound issue with SND HDA Intel (Ubuntu)
+
+https://www.linuxuprising.com/2018/06/fix-no-sound-dummy-output-issue-in.html
 
 # Compression
 
