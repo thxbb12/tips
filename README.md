@@ -600,6 +600,25 @@ ssh-add ~/.ssh/the_private_key
 
 # System config
 
+## Prevent services from spamming the logs
+
+Some services write tons of messages to the system logs. Here we change the verbosity of the rtkit-daemon.service to warning:
+
+1. Create a system-wide config dir for the service and inside, create a log config file:
+   ```
+   /etc/systemd/system/rtkit-daemon.service.d/log.conf
+   ```
+1. In `log.conf`, set the desired loglevel (0=emergency, 1=alert, 2=critical, 3=error, 4=warning, 5=notice, 6=info, 7=debug):
+   ```
+   [Service]
+   LogLevelMax=4
+   ```
+1. Reload the daeon and restart the service:
+   ```
+   systemctl daemon-reload
+   systemctl restart rtkit-daemon.service
+   ```
+
 ## Clear the path cache to executables
 
 Bash caches the path to executables found in the PATH variable environment. If you remove a program that was installed in the PATH, bash might complain it doesn't find it in the cached directory.
