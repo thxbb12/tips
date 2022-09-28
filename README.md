@@ -600,6 +600,16 @@ ssh-add ~/.ssh/the_private_key
 
 # System config
 
+## Activate autologin on Xubuntu (lightdm)
+
+Create /etc/lightdm/lightdm.conf.d/lightdm.conf with:
+```
+[Seat:*]
+autologin-user=YOUR_USER
+autologin-user-timeout=0
+greeter-hide-users=true
+```
+
 ## Prevent services from spamming the logs
 
 Some services write tons of messages to the system logs. Here we change the verbosity of the rtkit-daemon.service to warning:
