@@ -600,6 +600,12 @@ ssh-add ~/.ssh/the_private_key
 
 # System config
 
+## Display kernel error and warning messages
+
+```
+dmesg -T -lerr,warn
+```
+
 ## Activate autologin on Xubuntu (lightdm)
 
 Create /etc/lightdm/lightdm.conf.d/lightdm.conf with:
