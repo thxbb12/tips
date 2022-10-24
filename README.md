@@ -603,7 +603,7 @@ ssh-add ~/.ssh/the_private_key
 ## Display kernel error and warning messages
 
 ```
-dmesg -T -lerr,warn
+dmesg -T -lerr,warn -H
 ```
 
 ## Activate autologin on Xubuntu (lightdm)
