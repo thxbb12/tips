@@ -1,5 +1,6 @@
 ## Contents
 
+* [Android](#android)
 * [Archives](#archives)
 * [Audio](#audio)
 * [Compression](#compression)
@@ -24,6 +25,14 @@
 * [Touchpad](#touchpad)
 * [Video manipulation](#video-manipulation)
 * [Virtualization](#virtualization)
+
+# Android
+
+## Reliably transfer files android <-> linux
+To reliably transfer files from/to android <-> linux, use `android-file-transfer`. On Ubunut/Debian:
+```
+sudo apt-get intall android-file-transfer
+```
 
 # Archives
 
