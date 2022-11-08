@@ -29,7 +29,7 @@
 # Android
 
 ## Reliably transfer files android <-> linux
-To reliably transfer files from/to android <-> linux, use `android-file-transfer`. On Ubunut/Debian:
+To reliably transfer files from/to android <-> linux, use `android-file-transfer`: [https://github.com/whoozle/android-file-transfer-linux](https://github.com/whoozle/android-file-transfer-linux). On Ubuntu/Debian:
 ```
 sudo apt-get intall android-file-transfer
 ```
