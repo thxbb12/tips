@@ -343,7 +343,14 @@ apt-get install console-setup
 ```
 
 ## Add useful key bindings to clear screen, move cursor, etc. (ctrl+l, ctrl+e, etc.)
-Add these lines at the end of `/etc/inputrc`:
+
+If bash is set to use vi mode (with `set -o vi`), ctrl+l, ctrl+e, etc. won't work as these are emacs key bindings. To use these key bindings, set bash to emacs mode (default) with:
+
+```
+set -o emacs
+```
+
+Also, key bindings can be added/changed system-wide by modifying `/etc/inputrc`:
 ```
 "\C-l": clear-screen
 "\C-k": kill-line
