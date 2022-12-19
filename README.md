@@ -463,6 +463,16 @@ xrandr -s 0
 xset dpms force standby
 ```
 
+## Change screen brightness
+Retrieve the device to change the brightness for:
+```
+xrandr -q|grep " con"
+```
+Change XXX's brightness (from 0.0 to 1.0):
+```
+xrandr --output XXX --brightness 1.0
+```
+
 # Shell
 
 ## To repeat the last command (bash)
@@ -615,6 +625,14 @@ ssh-add ~/.ssh/the_private_key
 ```
 
 # System config
+
+## Setup autologin with LightDM (XFCE)
+
+Add the following to `/etc/lightdm/lightdm.conf` under `[Seat:*]` where `xxx` is the user that should automatically logs in: 
+```
+autologin-user=xxx
+autologin-user-timeout=0
+```
 
 ## Display kernel error and warning messages
 
