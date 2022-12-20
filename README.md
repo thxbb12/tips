@@ -121,6 +121,9 @@ find ~/Dropbox -type d -name "*.git" -exec setfattr -n user.com.dropbox.ignored 
 
 # File conversions
 
+## Remove trailing spaces at the end of a line
+sed -i 's/[[:space:]]*$//' source.c
+
 ## PDF conversion
 
 Sometimes PDF are not readable by all software. In this case, Ghostscript can help: it can read the file and write it in a more compatible format:
