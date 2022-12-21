@@ -402,6 +402,18 @@ iptables -F
 
 # Programming
 
+## C formatter for VSCodium/VSCode
+
+First install clang-format on the system:
+```
+sudo apt-get install clang-format -y
+```
+
+Then, in VSCodium:
+- Install "Clang-Format" extension
+- Press "Ctrl + Shift + i" to indent the current file
+
+
 ## To generate a static binary with golang
 ```
 CGO_ENABLED=0 GOOS=linux go build -a -ldflags="-s -w" -installsuffix cgo
