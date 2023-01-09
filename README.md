@@ -641,6 +641,12 @@ ssh-add ~/.ssh/the_private_key
 
 # System config
 
+## For current shell's variables to be visible when using sudo
+
+```
+sudo -E
+```
+
 ## Setup autologin with LightDM (XFCE)
 
 Add the following to `/etc/lightdm/lightdm.conf` under `[Seat:*]` where `xxx` is the user that should automatically logs in: 
