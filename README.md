@@ -870,6 +870,7 @@ file 'vid1.mp4'
 file 'vid2.mp4'
 file 'vid3.mp4'
 ```
+More details [here](https://trac.ffmpeg.org/wiki/Concatenate).
 
 # Virtualization
 
