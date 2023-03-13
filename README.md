@@ -641,6 +641,18 @@ ssh-add ~/.ssh/the_private_key
 
 # System config
 
+## Disable auto-mounting of hot-plugged devices (usb keys, etc.)
+
+The service dealing with automounting filesystems at runtime is `udisks2`. To disable it temporarily (until next reboot):
+```
+systemctl stop udisks2
+```
+
+To disable it permanently (across reboots):
+```
+systemctl disable udisks2
+```
+
 ## For current shell's variables to be visible when using sudo
 
 ```
