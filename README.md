@@ -255,6 +255,11 @@ sudo find / -perm -o+w
 find . -type f -cmin -600 
 ```
 
+## Display files that have been created or changed in the last 10 hours
+```
+find . -type f -mtime -10
+```
+
 ## Delete all files in /tmp that are older than 1 day
 find /tmp -type f -mtime +1 -exec rm -f {} \;
 
