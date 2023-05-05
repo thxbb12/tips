@@ -847,10 +847,20 @@ ExecStart=-/sbin/agetty -a joe --noclear %I $TERM
 
 # Touchpad
 
+## To inspect touchpad settings
+```
+synclient
+```
+
 ## Command to disable/enable the touchpad
 ```
 synclient TouchpadOff=1
 synclient TouchpadOff=0
+```
+
+## To disable vertical edge scrolling
+```
+synclient VertEdgeScroll=0
 ```
 
 ## To turn off, suspend or standby the screen
