@@ -189,11 +189,16 @@ cat myfile|tr -s \
 
 # File synchronization
 
-## To rsync movies from PC to tablet
-Mount the tablet and open a terminal in its Cartoon folder (e.g. `/run/user/1000/gvfs/mtp:host=%5Busb%3A003%2C033%5D/Card/Vidéos/Cartoons`),
-then type:
+## Mirror a directory to an external drive
+To mirror the `/home/joe/work directory` to the external drive mounted in `/media/joe/sdd_drive/`, run as root:
 ```
-rsync -rav --delete  ~/Videos/Cartoons/ .
+rsync -r -H -p -E -X -o -g --specials -t -U /home/joe/work /media/joe/sdd_drive/work/
+```
+
+## To rsync movies from PC to tablet
+Mount the tablet and open a terminal in its Videos folder, then type:
+```
+rsync -ra --delete  ~/Videos/Cartoons/ .
 ```
 
 # Filesystems
