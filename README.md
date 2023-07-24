@@ -192,7 +192,7 @@ cat myfile|tr -s \
 ## Mirror a directory to an external drive
 To mirror the `/home/joe/work directory` to the external drive mounted in `/media/joe/sdd_drive/`, run as root:
 ```
-rsync -r -H -p -E -X -o -g --specials -t -U /home/joe/work /media/joe/sdd_drive/work/
+rsync -r -H -p -E -X -o -g --specials --devices -l -t -U /home/joe/work /media/joe/sdd_drive/work/
 ```
 
 ## To rsync movies from PC to tablet
