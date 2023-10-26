@@ -58,6 +58,16 @@ Toggle output
 amixer -D pulse set Master toggle
 ```
 
+## Keyboard shortcuts to control music player
+
+Most music players follow the MPRIS specification (https://wiki.archlinux.org/title/MPRIS).
+
+The `playerctl` tool can be used to control the player, e.g.:
+
+- `playerctl play-pause`
+- `playerctl next`
+- `playerctl previous`
+
 ## Fix the no sound issue with SND HDA Intel (Ubuntu)
 
 https://www.linuxuprising.com/2018/06/fix-no-sound-dummy-output-issue-in.html
