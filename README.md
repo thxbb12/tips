@@ -661,6 +661,19 @@ ssh-add ~/.ssh/the_private_key
 
 # System config
 
+## Switching boot target to text
+
+Obtain default target:
+```
+systemctl get-default
+```
+
+Switch to text mode:
+```
+systemctl set-default multi-user.target
+reboot
+```
+
 ## Disable auto-mounting of hot-plugged devices (usb keys, etc.)
 
 The service dealing with automounting filesystems at runtime is `udisks2`. To disable it temporarily (until next reboot):
