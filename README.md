@@ -44,6 +44,19 @@ sudo tar -p -xhf archive.tar.gz
 
 # Audio
 
+## Extract the audio track from a video
+
+1. Extract the audio stream and copy it into the new file (m4a is the mpeg4 container for audio data only):
+```
+ffmpeg -i video.mp4 -map 0:a -acodec copy audio.m4a
+```
+
+2. Extract the audio stream and re-encode it into a mp3 file:
+
+```
+ffmpeg -i video.mp4 -map 0:a -acodec libmp3lame audio.mp3
+```
+
 ## Commands to control the volume (alsa)
 Increase volume
 ```
