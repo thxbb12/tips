@@ -15,6 +15,7 @@
 * [git](#git)
 * [Image manipulation](#image-manipulation)
 * [Keyboard](#keyboard)
+* [Mouse](#mouse)
 * [Networking](#networking)
 * [Programming](#programming)
 * [Screen](#screen)
@@ -394,6 +395,33 @@ Also, key bindings can be added/changed system-wide by modifying `/etc/inputrc`:
 "\C-e": end-of-line
 ```
 You can also display the current bindings with `bind -P`
+
+# Mouse
+
+## Disable middle button
+
+Install sxhkd:
+```
+sudo apt-get install sxhkd
+```
+
+Create `~/.config/sxhkd/sxhkdrc` with the following content:
+```
+button2
+     :
+```
+
+Create `~.config/autostart/sxhkd.desktop` with the content below. This desktop autostart file starts sxhkd when user logs into their desktop environment:
+```
+[Desktop Entry]
+Type=Application
+Name=sxhkd
+Exec=sxhkd
+Comment=disable middle mouse button
+StartupNotify=false
+Terminal=false
+Hidden=false
+```
 
 # Networking
 
