@@ -318,6 +318,12 @@ sudo fc-cache -fv
 
 # git
 
+## To throw discard local commits
+
+```
+git reset --hard origin/<branch name>
+```
+
 ## To display the repository's remote path (url)
 
 ```
