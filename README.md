@@ -3,6 +3,7 @@
 * [Android](#android)
 * [Archives](#archives)
 * [Audio](#audio)
+* [Bootloader](#botloader)
 * [Compression](#compression)
 * [Docker](#docker)
 * [Dropbox](#dropbox)
@@ -85,6 +86,15 @@ The `playerctl` tool can be used to control the player, e.g.:
 ## Fix the no sound issue with SND HDA Intel (Ubuntu)
 
 https://www.linuxuprising.com/2018/06/fix-no-sound-dummy-output-issue-in.html
+
+# Bootloader
+
+## Change GRUB's menu timeout
+
+To set timeout to 5 seconds, add the following to `/etc/default/grub`:
+```
+GRUB_RECORDFAIL_TIMEOUT=5
+```
 
 # Compression
 
