@@ -718,6 +718,13 @@ ssh-add ~/.ssh/the_private_key
 
 # System config
 
+## To disable Ubuntu "major update" annoying recurrent popup
+
+Add the following to `/etc/update-manager/release-upgrades`;
+```
+Prompt=never
+```
+
 ## Switching boot target to text
 
 Obtain default target:
