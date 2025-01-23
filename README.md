@@ -7,6 +7,7 @@
 * [Compression](#compression)
 * [Docker](#docker)
 * [Dropbox](#dropbox)
+* [iSCSI](#iscsi)
 * [File conversions](#file-conversions)
 * [File manipulation](#file-manipulation)
 * [File synchronization](#file-synchronization)
@@ -151,6 +152,58 @@ setfattr -x user.com.dropbox.ignored my_file
 
 ```
 find ~/Dropbox -type d -name "*.git" -exec setfattr -n user.com.dropbox.ignored -v 1 {} \;
+```
+
+# iSCSI
+
+## To discover the iSCSI target
+
+```
+iscsiadm -m node
+```
+Which should output:
+```
+10.0.0.17:3260,1 iqn.2001-04.com.qnap:ts-453bmini:iscsi.qnap.0bf961
+```
+
+## To connect to the iSCSI target volume
+
+```
+iscsiadm -l -m node -T iqn.2001-04.com.qnap:ts-453bmini:iscsi.qnap.0bf961
+```
+
+Which should output:
+```
+Logging in to [iface: default, target: iqn.2001-04.com.qnap:ts-453bmini:iscsi.qnap.0bf961, portal: 10.0.0.17,3260]
+Login to [iface: default, target: iqn.2001-04.com.qnap:ts-453bmini:iscsi.qnap.0bf961, portal: 10.0.0.17,3260] successful.
+```
+
+The kernel logs should show something like this:
+```
+kernel: scsi host9: iSCSI Initiator over TCP/IP
+kernel: scsi 9:0:0:0: Direct-Access     QNAP     iSCSI Storage    4.0  PQ: 0 ANSI: 5
+kernel: sd 9:0:0:0: Attached scsi generic sg3 type 0
+kernel: sd 9:0:0:0: [sdd] 15290335232 512-byte logical blocks: (7.83 TB/7.12 TiB)
+kernel: sd 9:0:0:0: [sdd] Write Protect is off
+kernel: sd 9:0:0:0: [sdd] Mode Sense: 43 00 10 08
+kernel: sd 9:0:0:0: [sdd] Write cache: disabled, read cache: enabled, supports DPO and FUA
+kernel: sd 9:0:0:0: [sdd] Preferred minimum I/O size 2048 bytes
+kernel: sd 9:0:0:0: [sdd] Optimal transfer size 2048 bytes < PAGE_SIZE (4096 bytes)
+kernel: sd 9:0:0:0: [sdd] Attached SCSI disk
+```
+
+This shows that the device is exposed as /dev/sdd (as a raw disk).
+
+# To disconnect from the iSCSI target volume
+
+```
+iscsiadm -u -m node -T iqn.2001-04.com.qnap:ts-453bmini:iscsi.qnap.0bf961
+```
+
+Which should output:
+```
+Logging out of session [sid: 2, target: iqn.2001-04.com.qnap:ts-453bmini:iscsi.qnap.0bf961, portal: 10.0.0.17,3260]
+Logout of [sid: 2, target: iqn.2001-04.com.qnap:ts-453bmini:iscsi.qnap.0bf961, portal: 10.0.0.17,3260] successful.
 ```
 
 # File conversions
