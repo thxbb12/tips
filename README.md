@@ -208,6 +208,23 @@ Logout of [sid: 2, target: iqn.2001-04.com.qnap:ts-453bmini:iscsi.qnap.0bf961, p
 
 # File conversions
 
+## Compress a PDF
+
+Resize for screen viewing which is the lowest quality:
+```
+ps2pdf -dPDFSETTINGS=/screen input.pdf output.pdf
+```
+
+Resize for ebook, which is better than screen:
+```
+ps2pdf -dPDFSETTINGS=/ebook input.pdf output.pdf
+```
+
+Resize for printer which is better than ebook:
+```
+ps2pdf -dPDFSETTINGS=/ebook input.pdf output.pdf
+```
+
 ## Remove trailing spaces at the end of a line
 sed -i 's/[[:space:]]*$//' source.c
 
