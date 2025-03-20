@@ -398,6 +398,23 @@ sudo fc-cache -fv
 
 # git
 
+# Delete references to a branch
+
+Delete reference to a local branch:
+```
+git branch -d <branch name>
+```
+
+Delete reference to a remote branch:
+```
+git branch -d -r <origin>/<branch name>
+```
+
+Delete a branch:
+```
+git push -d <remote> <branch name>
+```
+
 ## To throw discard local commits
 
 ```
