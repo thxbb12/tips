@@ -54,10 +54,15 @@ sudo tar -p -xhf archive.tar.gz
 ffmpeg -i video.mp4 -map 0:a -acodec copy audio.m4a
 ```
 
-2. Extract the audio stream and re-encode it into a mp3 file:
+2. Extract the audio stream and re-encode it into a mp3 file using the best quality (not variable bit rate for higher compatibility):
 
 ```
-ffmpeg -i video.mp4 -map 0:a -acodec libmp3lame audio.mp3
+ffmpeg -i video.mp4 -map 0:a -acodec libmp3lame -b:a 320k audio.mp3
+```
+
+To use variable bit rate:
+```
+ffmpeg -i video.mp4 -map 0:a -acodec libmp3lame -q:a 0 audio.mp3
 ```
 
 ## Commands to control the volume (alsa)
