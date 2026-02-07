@@ -1062,7 +1062,7 @@ xset dpms force standby
 - 2 = 90° counter clockwise
 - 3 = 90° clockwise + vertical flip
 ```
-ffmpeg -i input.mp4 -vf 'transpose=1' -c:v libx264 -c:a copy -crf 20 output.mp4
+ffmpeg -i input.mp4 -vf 'transpose=1' output.mp4
 ```
 
 ## To trim a video file without re-encoding
