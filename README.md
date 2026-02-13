@@ -136,6 +136,30 @@ systemctl start docker
 
 # Dropbox
 
+## Increase system limits to avoid Dropbox being "stuck"
+
+Increase open files limit to 1 million:
+
+Add these 2 lines to `/etc/security/limits.conf` and reboot:
+```
+* soft nofile 1048576
+* hard nofile 1048576
+```
+
+Increase inotify limits:
+
+Add these 3 lines to `/etc/sysctl.conf`:
+```
+fs.inotify.max_user_watches=1048576
+fs.inotify.max_user_instances=1024
+fs.inotify.max_queued_events=32768
+```
+
+Then load them with:
+```
+sudo sysctl -p
+```
+
 ## Mark files/directories to be ignored by Dropbox
 
 Dropbox uses file extended attributes for various things.
