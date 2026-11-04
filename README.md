@@ -1,6 +1,7 @@
 ## Contents
 
 * [Android](#android)
+* [Apparmor](#apparmor)
 * [Archives](#archives)
 * [Audio](#audio)
 * [Bootloader](#botloader)
@@ -36,6 +37,19 @@ To reliably transfer files from/to android <-> linux, use `android-file-transfer
 ```
 sudo apt-get intall android-file-transfer
 ```
+
+# Apparmor
+
+If chromium can't access certain sites that are blocked by apparmor:
+
+Disable apparmor for chromium (doesn't survive a snap restart or reboot):
+- sudo apparmor_parser -R /var/lib/snapd/apparmor/profiles/snap.chromium.chromium
+
+Put chromium in complain mode (logs violations instead of blocking them):
+- sudo apparmor_parser -Cr /var/lib/snapd/apparmor/profiles/snap.chromium.chromium
+
+Restore normal mode:
+- sudo apparmor_parser -r /var/lib/snapd/apparmor/profiles/snap.chromium.chromium
 
 # Archives
 
